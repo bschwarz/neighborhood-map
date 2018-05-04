@@ -14,14 +14,50 @@ var polygon = null;
 */
 function initMap() {
 
-  // create a new map, around coords for Pike Place Market in Seattle, WA
+  // create a new hybrid map, around coords for Pike Place Market in Seattle, WA
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 47.609000, lng: -122.340000},
     zoom: 18,
+    mapTypeId: 'roadmap',
     mapTypeControl: false
   });
+
+
+  // create a marker for each location, and use 
+  // red pin as the marker. Red pin image downloaded 
+  // from http://icon-park.com/icon/location-map-pin-red-sphere-free-vector-datasvg/
+  for (var i = 0; i < locations.length; i++) {
+
+    var marker = new google.maps.Marker({
+      position: locations[i].location,
+      title: locations[i].title,
+      animation: google.maps.Animation.DROP,
+      icon: 'images/red_pin2.png',
+      id: i
+    });
+
+    markers.push(marker);
+
+  }
+
+  showLocations();
 }
 
+
+/**
+* @description Represents a book
+* @param {string} title - The title of the book
+* @param {string} author - The author of the book
+*/
+function showLocations() {
+  var bounds = new google.maps.LatLngBounds();
+  // Extend the boundaries of the map for each marker and display the marker
+  for (var i = 0; i < markers.length; i++) {
+    markers[i].setMap(map);
+    bounds.extend(markers[i].position);
+  }
+  map.fitBounds(bounds);
+}
 
 /**
 * @description Represents a book
