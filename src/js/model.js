@@ -8,6 +8,6 @@
 	{title: 'Alibi Room', location: {lat: 47.608255, lng: -122.340411}, type: 'restaurant'},
 	{title: 'The Pink Door', location: {lat: 47.610365, lng: -122.342560}, type: 'restaurant'},
 	{title: 'Original Starbucks', location: {lat: 47.610090, lng: -122.342470}, type: 'coffee'},
-	{title: 'The Athenian Seafood Restaurant and Bar', location: {lat: 47.608717, lng: -122.341034}, type: 'restaurant'}
+	{title: 'Athenian Seafood Restaurant and Bar', location: {lat: 47.608717, lng: -122.341034}, type: 'restaurant'}
 
 ];
