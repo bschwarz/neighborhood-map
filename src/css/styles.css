@@ -15,7 +15,7 @@
         font-size: 11pt;
       }
 
-      h1 {
+      h2 {
         color: #336699;
         font-size: 18pt;
         text-align: center;
@@ -45,21 +45,9 @@
         line-height: 35px;
         padding: 1px 1px 3px 1px;
         text-align: left;
-        /*width: 340px;
+        /*width: 340px;*/
       }
 
       #search-within-neighborhood {
-        width: 84%;
-      }
-
-      .text {
-        font-size: 12px;
-      }
-
-      #neighborhood-text {
-        width: 70%;
-      }
-
-      #neighborhood-go {
-        width: 24%;
+        width: 75%;
       }
