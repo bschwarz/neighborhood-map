@@ -19,6 +19,23 @@
     <!-- Defer the model.j and app.js so HTML is loaded first so can bind to it -->
     <script src="js/model.js" defer="defer"></script>
     <script src="js/app.js" defer="defer"></script>
+
+    <!-- Creating a template so can re-use for each location -->
+    <script type="text/html" id="locationList-template">
+        <div class="card">
+        <div class="card-header" data-bind="attr: { id: heading}">
+          <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-bind="text: title, attr: { 'data-target': '#'+collapse, 'aria-controls': collapse}" aria-expanded="true" data-bind="text: title">
+          </button>
+          </h5>
+        </div>
+
+        <div data-bind="attr: { id: collapse, 'aria-labelledby': heading}" class="collapse" data-parent="#accordion">
+          <div class="card-body" data-bind="text: type">
+          </div>
+        </div>
+      </div>
+    </script>
   </head>
 
 
@@ -27,34 +44,18 @@
     <main class="container-fluid h-100">
 
       <div class="row h-100">
-        <!-- Using bootstrap accordian-->
+        <!-- This is the side widget with the location listings -->
       <aside class="listing-box col-6 col-sm-3">
-        <h1>Neighborhood Map</h1>
+        <h2>Neighborhood Map</h2>
 
         <hr>
         <div>
-          <input id="search-within-neighborhood" type="text" placeholder="filter text">
+          <input id="search-within-neighborhood" type="text" placeholder="text to filter results">
           <input id="search-go" type="button" value="Filter">
         </div>
 
-
-        <!-- Creating a template so can re-use for each location -->
-        <script type="text/html" id="locationList-template">
-            <div class="card">
-            <div class="card-header" data-bind="attr: { id: heading}">
-              <h5 class="mb-0">
-              <button class="btn btn-link" data-toggle="collapse" data-bind="text: title, attr: { 'data-target': '#'+collapse, 'aria-controls': collapse}" aria-expanded="true" data-bind="text: title">
-              </button>
-              </h5>
-            </div>
-
-            <div data-bind="attr: { id: collapse, 'aria-labelledby': heading}" class="collapse" data-parent="#accordion">
-              <div class="card-body" data-bind="text: type">
-              </div>
-            </div>
-          </div>
-        </script>
-
+        <!-- Using bootstrap accordian-->
+        <!-- This will be expanded out with the foreach loop over the locations, one card per location -->
         <div id="accordion" data-bind="template: { name: 'locationList-template', foreach: locationList }">
  
         </div>
