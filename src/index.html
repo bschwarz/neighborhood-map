@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Brett Schwarz's Neighborhood Map">
+    <meta name="author" content="Brett Schwarz">
+
+    <title>Neighborhood Map</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/knockout-min.js"></script>
+
+    <!-- Defer the model.j and app.js so HTML is loaded first so can bind to it -->
+    <script src="js/model.js" defer="defer"></script>
+    <script src="js/app.js" defer="defer"></script>
+  </head>
+
+
+  <body>
+
+    <main class="container-fluid h-100">
+
+      <div class="row h-100">
+        <!-- Using bootstrap accordian-->
+      <aside class="listing-boxX col-6 col-sm-2">
+        <h1>Neighborhood Map</h1>
+
+        <hr>
+        <div>
+          <input id="search-within-neighborhood" type="text" placeholder="filter text">
+          <input id="search-go" type="button" value="Filter">
+        </div>
+
+
+        <!-- Creating a template so can re-use for each location -->
+        <script type="text/html" id="locationList-template">
+            <div class="card">
+            <div class="card-header" data-bind="attr: { id: heading}">
+              <h5 class="mb-0">
+              <button class="btn btn-link" data-toggle="collapse" data-bind="text: title, attr: { 'data-target': '#'+collapse, 'aria-controls': collapse}" aria-expanded="true" data-bind="text: title">
+              </button>
+              </h5>
+            </div>
+
+            <div data-bind="attr: { id: collapse, 'aria-labelledby': heading}" class="collapse show" data-parent="#accordion">
+              <div class="card-body" data-bind="text: type">
+              </div>
+            </div>
+          </div>
+        </script>
+
+        <div id="accordion" data-bind="template: { name: 'locationList-template', foreach: locationList }">
+ 
+        </div>
+
+        <hr>
+      </aside>
+
+      <section id="map" class="col-12 col-sm-auto">
+      </section>
+    </div>
+    </main>
+
+    <script async defer
+        src=
+        "https://maps.googleapis.com/maps/api/js?libraries=geometry&key=AIzaSyB6ooU3VulJ7rPMTm7pQq2NXjX6SRnfSzU&v=3&callback=initMap">
+    </script>
+
+  </body>
+</html>

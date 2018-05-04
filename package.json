@@ -1,0 +1,25 @@
+{
+  "name": "neighborhood-map",
+  "version": "1.0.0",
+  "description": "Neighborhood map project for Udacity's Front End Web Developer Nanodegree",
+  "main": "gulp.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bschwarz/neighborhood-map.git"
+  },
+  "author": "Brett Schwarz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bschwarz/neighborhood-map/issues"
+  },
+  "homepage": "https://github.com/bschwarz/neighborhood-map#readme",
+  "dependencies": {
+    "knockout": "^3.4.2"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
+}

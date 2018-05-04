@@ -1,0 +1,65 @@
+      html,body {
+        font-family: Verdana, sans-serif;
+        font-size: 11pt;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+/*      .container-fluid {
+        height: 100%;
+        position: relative;
+      }*/
+
+      input {
+        font-size: 11pt;
+      }
+
+      h1 {
+        color: #336699;
+        font-size: 18pt;
+        text-align: center;
+      }
+      /* adapted from https://css-tricks.com/examples/hrs/ */
+      hr { 
+        border: 0; 
+        height: 2px; 
+        background: #336699; 
+        background-image: linear-gradient(to right, #99ccff, #336699, #99ccff); 
+      }
+
+      #map {
+        bottom:0px;
+        height: 100%;
+        width: 100%;
+        left: 20%;
+        position: absolute;
+        right: 0px;
+      }
+
+/*      .listing-box {
+        background: #fff;
+/*        border: 1px solid #336699;
+        border-radius: 5px;*/
+        height: 100%;
+        line-height: 35px;
+        padding: 10px 10px 30px 10px;
+        text-align: left;
+        /*width: 340px;*/
+      }*/
+
+      #search-within-neighborhood {
+        width: 84%;
+      }
+
+      .text {
+        font-size: 12px;
+      }
+
+      #neighborhood-text {
+        width: 70%;
+      }
+
+      #neighborhood-go {
+        width: 24%;
+      }
