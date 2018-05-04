@@ -6,7 +6,7 @@
 	{title: 'Showbox', location: {lat: 47.608556, lng: -122.339327}, type: 'entertainment'},
 	{title: 'Hard Rock Cafe', location: {lat: 47.609224, lng: -122.339479}, type: 'restaurant'},
 	{title: 'Alibi Room', location: {lat: 47.608255, lng: -122.340411}, type: 'restaurant'},
-	{title: 'The Pink Door', location: {lat: 47.610365, lng: -122.342560}, type: 'restaurant'},
+	{title: 'Pink Door', location: {lat: 47.610365, lng: -122.342560}, type: 'restaurant'},
 	{title: 'Original Starbucks', location: {lat: 47.610090, lng: -122.342470}, type: 'coffee'},
 	{title: 'Athenian Seafood Restaurant and Bar', location: {lat: 47.608717, lng: -122.341034}, type: 'restaurant'}
 
