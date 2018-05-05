@@ -26,19 +26,30 @@ function initMap() {
   // create a marker for each location, and use 
   // red pin as the marker. Red pin image downloaded 
   // from http://icon-park.com/icon/location-map-pin-red-sphere-free-vector-datasvg/
+  var defaultImage = 'images/red_pin.png';
+  var highlightImage = 'images/red_pin_bright.png'
   for (var i = 0; i < locations.length; i++) {
 
     var marker = new google.maps.Marker({
       position: locations[i].location,
       title: locations[i].title,
       animation: google.maps.Animation.DROP,
-      icon: 'images/red_pin2.png',
+      icon: defaultImage,
       id: i
     });
 
     markers.push(marker);
 
+    marker.addListener('mouseover', function() {
+      this.setIcon(highlightImage);
+    });
+    marker.addListener('mouseout', function() {
+      this.setIcon(defaultImage);
+    });
+
   }
+
+
 
   showLocations();
 }
@@ -135,7 +146,7 @@ function listViewModel() {
     });
 
     return filteredSet;
-    
+
   }, this);
 
   // this.currentLocation = ko.observable( this.locationList()[0] );
