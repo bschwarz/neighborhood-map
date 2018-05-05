@@ -61,6 +61,18 @@ function showLocations() {
 
 /**
 * @description Represents a book
+* @param {string} title - The title of the book
+* @param {string} author - The author of the book
+*/
+function markersSet(flag) {
+
+  for (var i = 0; i < markers.length; i++) {
+    markers[i].setVisible(flag);
+  }
+}
+
+/**
+* @description Represents a book
 * @constructor
 * @param {string} title - The title of the book
 * @param {string} author - The author of the book
@@ -90,32 +102,43 @@ function listViewModel() {
 
   for (var i = 0; i < locations.length; i++) {
     self.locationList.push( new Location(locations[i], i) );
-    console.log(locations[i]);
   };
-console.log(self.locationList.length);
 
-
-  // Adapted from howto on KO utils here:
-  // http://www.knockmeout.net/2011/04/utility-functions-in-knockoutjs.html
+ 
   /**
   * @description Represents a book
   * @param {string} title - The title of the book
   * @param {string} author - The author of the book
+  *
+  * Adapted from howto on KO utils here:
+  * http://www.knockmeout.net/2011/04/utility-functions-in-knockoutjs.html
   */
   self.locationListFiltered = ko.computed(function() {
     console.log('XXXX');
+    markersSet(false);
     if (!self.searchNeighborhood()) {
+      markersSet(true);
       return self.locationList();
     }
 
-    return ko.utils.arrayFilter(self.locationList(), function(loc) {
+    var filteredSet = [];
+    var i = 0;
+    ko.utils.arrayForEach(self.locationList(), function(loc) {
+
       if(loc.title().search(new RegExp(self.searchNeighborhood(), "i")) === 0) {
-        return true;
+        filteredSet.push(loc);
+        markers[i].setVisible(true);
       }
+
+      i++;
+
     });
+
+    return filteredSet;
+    
   }, this);
 
-  this.currentLocation = ko.observable( this.locationList()[0] );
+  // this.currentLocation = ko.observable( this.locationList()[0] );
 
 };
 
