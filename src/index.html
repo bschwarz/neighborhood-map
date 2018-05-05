@@ -17,8 +17,8 @@
     <script src="js/knockout-min.js"></script>
 
     <!-- Defer the model.j and app.js so HTML is loaded first so can bind to it -->
-    <script src="js/model.js" defer="defer"></script>
-    <script src="js/app.js" defer="defer"></script>
+<!--     <script src="js/model.js" defer="defer"></script>
+    <script src="js/app.js" defer="defer"></script> -->
 
     <!-- Creating a template so can re-use for each location -->
     <script type="text/html" id="locationList-template">
@@ -38,7 +38,7 @@
     </script>
   </head>
 
-
+              <!-- BODY -->
   <body>
 
     <main class="container-fluid h-100">
@@ -50,14 +50,15 @@
 
         <hr>
         <div>
-          <input id="search-within-neighborhood" type="text" placeholder="text to filter results">
+          <input id="search-within-neighborhood" type="text" placeholder="text to filter results" data-bind="textInput: searchNeighborhood, valueUpdate: 'keyup'">
           <input id="search-go" type="button" value="Filter">
         </div>
 
         <!-- Using bootstrap accordian-->
         <!-- This will be expanded out with the foreach loop over the locations, one card per location -->
-        <div id="accordion" data-bind="template: { name: 'locationList-template', foreach: locationList }">
- 
+        <div data-bind="foreach: locationListFiltered()">
+          <div id="accordion" data-bind="template: { name: 'locationList-template'}">
+          </div>
         </div>
 
         <hr>
@@ -68,6 +69,8 @@
     </div>
     </main>
 
+    <script src="js/model.js"></script>
+    <script src="js/app.js"></script>
     <script async defer
         src=
         "https://maps.googleapis.com/maps/api/js?libraries=geometry&key=AIzaSyB6ooU3VulJ7rPMTm7pQq2NXjX6SRnfSzU&v=3&callback=initMap">
