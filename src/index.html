@@ -25,17 +25,18 @@
         <div class="card">
         <div class="card-header" data-bind="attr: { id: heading}">
           <h5 class="mb-0">
-          <button class="btn btn-link" data-toggle="collapse" data-bind="text: title, attr: { 'data-target': '#'+collapse, 'aria-controls': collapse}" aria-expanded="true" data-bind="text: title">
+          <button class="btn btn-link" data-toggle="collapse" data-bind="text: title, attr: { 'data-target': '#'+collapse, 'aria-controls': collapse}" aria-expanded="true" data-bind="text: title, click: populateInfoWindow">
           </button>
           </h5>
         </div>
 
         <div data-bind="attr: { id: collapse, 'aria-labelledby': heading}" class="collapse" data-parent="#accordion">
-          <div class="card-body" data-bind="text: type">
+          <div class="card-body" data-bind="text: description">
           </div>
         </div>
       </div>
     </script>
+
   </head>
 
               <!-- BODY -->
@@ -50,13 +51,13 @@
 
         <hr>
         <div>
-          <input id="search-within-neighborhood" type="text" placeholder="text to filter results" data-bind="textInput: searchNeighborhood, valueUpdate: 'keyup'">
+          <input id="search-within-neighborhood" type="text" placeholder="text to filter results" data-bind="textInput: searchNeighborhood, valueUpdate: 'keydown'">
           <input id="search-go" type="button" value="Filter">
         </div>
 
         <!-- Using bootstrap accordian-->
         <!-- This will be expanded out with the foreach loop over the locations, one card per location -->
-        <div data-bind="foreach: locationListFiltered()">
+        <div data-bind="foreach: locationListFiltered">
           <div id="accordion" data-bind="template: { name: 'locationList-template'}">
           </div>
         </div>
