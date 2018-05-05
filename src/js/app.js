@@ -71,6 +71,7 @@ var Location = function(data, index) {
   this.type = ko.observable(data.type);
   this.heading = 'heading' + index;
   this.collapse = 'collapse' + index;
+  // this.marker = {};
 
 }
 
@@ -81,25 +82,44 @@ var Location = function(data, index) {
 * @param {string} title - The title of the book
 * @param {string} author - The author of the book
 */
-var listViewModel = function() {
+function listViewModel() {
   var self = this; 
 
-  this.locationList = ko.observableArray([]);
+  self.locationList = ko.observableArray([]);
+  self.searchNeighborhood = ko.observable("");
 
   for (var i = 0; i < locations.length; i++) {
     self.locationList.push( new Location(locations[i], i) );
+    console.log(locations[i]);
   };
+console.log(self.locationList.length);
+
+
+  // Adapted from howto on KO utils here:
+  // http://www.knockmeout.net/2011/04/utility-functions-in-knockoutjs.html
+  /**
+  * @description Represents a book
+  * @param {string} title - The title of the book
+  * @param {string} author - The author of the book
+  */
+  self.locationListFiltered = ko.computed(function() {
+    console.log('XXXX');
+    if (!self.searchNeighborhood()) {
+      return self.locationList();
+    }
+
+    return ko.utils.arrayFilter(self.locationList(), function(loc) {
+      if(loc.title().search(new RegExp(self.searchNeighborhood(), "i")) === 0) {
+        return true;
+      }
+    });
+  }, this);
 
   this.currentLocation = ko.observable( this.locationList()[0] );
 
-  this.incrementCounter = function() {
-    self.currentCat().clickCount(self.currentCat().clickCount() + 1);
-  };
-
-  this.setLocation = function(clicked) {
-    self.currentLocation(clicked);
-  };
 };
 
-
-ko.applyBindings(new listViewModel());
+// different way to call bindings, from here:
+// https://robinsr.github.io/blog/post/knockoutjs-best-practices
+var listView = { viewModel : new listViewModel() }
+ko.applyBindings(listView.viewModel);
