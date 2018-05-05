@@ -3,10 +3,24 @@ var infowindow = "";
 // Create a new blank array for all the listing markers.
 var markers = [];
 
-// This global polygon variable is to ensure only ONE polygon is rendered.
-var polygon = null;
+var locstart = {
+  lat: '47.609000',
+  lng: '-122.340000'
+};
 
+var fsBaseUrl = 'https://api.foursquare.com/v2/venues/search';
+var foursquare = {
+  client_id: 'EEVVE4BBS22Q3EHRZL33XVFZZTR51RZTZDIZXDDRVYPRPR4Y',
+  client_secret: '25D03XWWJAVIJNYLJGJX3EH13HUUX3GJPM3WAVB1G30DOOVK',
+  limit: '1',
+  v: '20180323',
+  intent: 'match',
+  ll: '',
+  query: ''
+};
 
+// foursquare.url += 'client_id=' + foursquare.clientId + '&client_secret=' + foursquare.clientSecret;
+// foursquare.url += '&limit=1&v=20180323';
 /**
 * @description Represents a book
 * @param {string} title - The title of the book
@@ -16,7 +30,7 @@ function initMap() {
 
   // create a new hybrid map, around coords for Pike Place Market in Seattle, WA
   map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 47.609000, lng: -122.340000},
+    center: {lat: locstart.lat, lng: locstart.lng},
     zoom: 18,
     mapTypeId: 'roadmap',
     mapTypeControl: false
@@ -68,6 +82,8 @@ function populateInfoWindow(marker, infowindow) {
     return
   }
 
+console.log(marker.position.lat);
+
   // Clear the infowindow content
   infowindow.setContent('');
   infowindow.marker = marker;
@@ -75,35 +91,54 @@ function populateInfoWindow(marker, infowindow) {
   infowindow.addListener('closeclick', function() {
     infowindow.marker = null;
   });
-  var streetViewService = new google.maps.StreetViewService();
-  var radius = 50;
-  // In case the status is OK, which means the pano was found, compute the
-  // position of the streetview image, then calculate the heading, then get a
-  // panorama from that and set the options
-  function getStreetView(data, status) {
-    if (status == google.maps.StreetViewStatus.OK) {
-      var nearStreetViewLocation = data.location.latLng;
-      var heading = google.maps.geometry.spherical.computeHeading(
-        nearStreetViewLocation, marker.position);
-        infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
-        var panoramaOptions = {
-          position: nearStreetViewLocation,
-          pov: {
-            heading: heading,
-            pitch: 30
-          }
-        };
-      var panorama = new google.maps.StreetViewPanorama(
-        document.getElementById('pano'), panoramaOptions);
-    } else {
-      infowindow.setContent('<div>' + marker.title + '</div>' +
-        '<div>No Street View Found</div>');
-    }
-  }
-  // Use streetview service to get the closest streetview image within
-  // 50 meters of the markers position
-  streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
-  // Open the infowindow on the correct marker.
+
+  // var searchurl = foursquare.url + '?ll=' + marker.lat + ',' marker.lng + '&intent=match' + '&query=' + marker.title;
+  
+  foursquare.ll = marker.position.lat() + ',' + marker.position.lng();
+  // foursquare.ll = marker.position;
+  foursquare.query = marker.title;
+
+  console.log(foursquare);
+  console.log(fsBaseUrl);
+
+  $.getJSON( fsBaseUrl, foursquare )
+  .done(function( json ) {
+    console.log( "JSON Data: " + json );
+  })
+  .fail(function( jqxhr, textStatus, error ) {
+    var err = textStatus + ", " + error;
+    console.log( "Request Failed: " + err );
+  });
+
+  // var streetViewService = new google.maps.StreetViewService();
+  // var radius = 50;
+  // // In case the status is OK, which means the pano was found, compute the
+  // // position of the streetview image, then calculate the heading, then get a
+  // // panorama from that and set the options
+  // function getStreetView(data, status) {
+  //   if (status == google.maps.StreetViewStatus.OK) {
+  //     var nearStreetViewLocation = data.location.latLng;
+  //     var heading = google.maps.geometry.spherical.computeHeading(
+  //       nearStreetViewLocation, marker.position);
+  //       infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
+  //       var panoramaOptions = {
+  //         position: nearStreetViewLocation,
+  //         pov: {
+  //           heading: heading,
+  //           pitch: 30
+  //         }
+  //       };
+  //     var panorama = new google.maps.StreetViewPanorama(
+  //       document.getElementById('pano'), panoramaOptions);
+  //   } else {
+  //     infowindow.setContent('<div>' + marker.title + '</div>' +
+  //       '<div>No Street View Found</div>');
+  //   }
+  // }
+  // // Use streetview service to get the closest streetview image within
+  // // 50 meters of the markers position
+  // streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+  // // Open the infowindow on the correct marker.
   infowindow.open(map, marker);
 
 }
@@ -151,6 +186,7 @@ var Location = function(data, index) {
   this.collapse = 'collapse' + index;
   // this.marker = {};
 
+  // There's probably a better way to do this...
   $(document).ready(function(){
     $('#' + self.collapse).on('shown.bs.collapse', function(){
         populateInfoWindow(markers[index], infowindow);
