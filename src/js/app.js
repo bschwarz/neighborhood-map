@@ -1,5 +1,5 @@
 var map;
-
+var infowindow = "";
 // Create a new blank array for all the listing markers.
 var markers = [];
 
@@ -22,6 +22,7 @@ function initMap() {
     mapTypeControl: false
   });
 
+  infowindow = new google.maps.InfoWindow();
 
   // create a marker for each location, and use 
   // red pin as the marker. Red pin image downloaded 
@@ -40,6 +41,9 @@ function initMap() {
 
     markers.push(marker);
 
+    marker.addListener('click', function() {
+      populateInfoWindow(this, infowindow);
+    });
     marker.addListener('mouseover', function() {
       this.setIcon(highlightImage);
     });
@@ -54,7 +58,55 @@ function initMap() {
   showLocations();
 }
 
+// This function populates the infowindow when the marker is clicked. We'll only allow
+// one infowindow which will open at the marker that is clicked, and populate based
+// on that markers position.
+function populateInfoWindow(marker, infowindow) {
 
+  // If not current marker, then bail
+  if (infowindow.marker == marker) {
+    return
+  }
+
+  // Clear the infowindow content
+  infowindow.setContent('');
+  infowindow.marker = marker;
+  // Make sure the marker property is cleared if the infowindow is closed.
+  infowindow.addListener('closeclick', function() {
+    infowindow.marker = null;
+  });
+  var streetViewService = new google.maps.StreetViewService();
+  var radius = 50;
+  // In case the status is OK, which means the pano was found, compute the
+  // position of the streetview image, then calculate the heading, then get a
+  // panorama from that and set the options
+  function getStreetView(data, status) {
+    if (status == google.maps.StreetViewStatus.OK) {
+      var nearStreetViewLocation = data.location.latLng;
+      var heading = google.maps.geometry.spherical.computeHeading(
+        nearStreetViewLocation, marker.position);
+        infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
+        var panoramaOptions = {
+          position: nearStreetViewLocation,
+          pov: {
+            heading: heading,
+            pitch: 30
+          }
+        };
+      var panorama = new google.maps.StreetViewPanorama(
+        document.getElementById('pano'), panoramaOptions);
+    } else {
+      infowindow.setContent('<div>' + marker.title + '</div>' +
+        '<div>No Street View Found</div>');
+    }
+  }
+  // Use streetview service to get the closest streetview image within
+  // 50 meters of the markers position
+  streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+  // Open the infowindow on the correct marker.
+  infowindow.open(map, marker);
+
+}
 /**
 * @description Represents a book
 * @param {string} title - The title of the book
@@ -89,13 +141,21 @@ function markersSet(flag) {
 * @param {string} author - The author of the book
 */
 var Location = function(data, index) {
+  var self = this;
+
   this.title = ko.observable(data.title);
   this.location = ko.observable(data.location);
   this.type = ko.observable(data.type);
+  this.description = ko.observable(data.description);
   this.heading = 'heading' + index;
   this.collapse = 'collapse' + index;
   // this.marker = {};
 
+  $(document).ready(function(){
+    $('#' + self.collapse).on('shown.bs.collapse', function(){
+        populateInfoWindow(markers[index], infowindow);
+    });
+  });
 }
 
 
@@ -112,10 +172,11 @@ function listViewModel() {
   self.searchNeighborhood = ko.observable("");
 
   for (var i = 0; i < locations.length; i++) {
-    self.locationList.push( new Location(locations[i], i) );
+    var loc = new Location(locations[i], i);
+    self.locationList.push( loc );
   };
 
- 
+
   /**
   * @description Represents a book
   * @param {string} title - The title of the book
@@ -125,7 +186,6 @@ function listViewModel() {
   * http://www.knockmeout.net/2011/04/utility-functions-in-knockoutjs.html
   */
   self.locationListFiltered = ko.computed(function() {
-    console.log('XXXX');
     markersSet(false);
     if (!self.searchNeighborhood()) {
       markersSet(true);
