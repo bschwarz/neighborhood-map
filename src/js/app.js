@@ -8,13 +8,14 @@ var locstart = {
   lng: '-122.340000'
 };
 
+  // client_id: 'EEVVE4BBS22Q3EHRZL33XVFZZTR51RZTZDIZXDDRVYPRPR4Y',
+  // client_secret: '25D03XWWJAVIJNYLJGJX3EH13HUUX3GJPM3WAVB1G30DOOVK',
+
 var fsBaseUrl = 'https://api.foursquare.com/v2/venues/search';
 var foursquare = {
-  client_id: 'EEVVE4BBS22Q3EHRZL33XVFZZTR51RZTZDIZXDDRVYPRPR4Y',
-  client_secret: '25D03XWWJAVIJNYLJGJX3EH13HUUX3GJPM3WAVB1G30DOOVK',
+  oauth_token: 'YI32YYGZJB4THOPW4M5PUQ2QAKB0NOM2E4QYBDGYUDFYPN32',
   limit: '1',
   v: '20180323',
-  intent: 'match',
   ll: '',
   query: ''
 };
@@ -94,7 +95,8 @@ console.log(marker.position.lat);
 
   // var searchurl = foursquare.url + '?ll=' + marker.lat + ',' marker.lng + '&intent=match' + '&query=' + marker.title;
   
-  foursquare.ll = marker.position.lat() + ',' + marker.position.lng();
+  // foursquare.ll = marker.position.lat() + ',' + marker.position.lng();
+  foursquare.ll = locstart.lat + ',' + locstart.lng;
   // foursquare.ll = marker.position;
   foursquare.query = marker.title;
 
@@ -103,7 +105,33 @@ console.log(marker.position.lat);
 
   $.getJSON( fsBaseUrl, foursquare )
   .done(function( json ) {
-    console.log( "JSON Data: " + json );
+
+    var venue = json.response.venues[0];
+
+    // There can be multiple categories, so get shortName of each
+    var cats = [];
+    for (var i = 0; i < venue.categories.length; i++) {
+      cats.push(venue.categories[i].shortName);
+    }
+
+console.log('CONTACT: ' + venue.contact.phone);
+console.log(venue.stats.tipCount);
+console.log(venue.url);
+    var phone = '';
+    if (venue.contact.phone) {
+      phone = '<a href="tel:+1' + venue.contact.phone + '">' + venue.contact.formattedPhone + '</a>';
+    }
+
+    var url = '';
+    if (venue.url) {
+      url = '<a href=' + venue.url + '">' + venue.url + '</a>';
+    }
+    infowindow.setContent('<h4>' + venue.name + '</h4>' +
+        '<h6>(' + cats.join(',') + ')</h6>' +
+         '<address>' + venue.location.formattedAddress.join('<br>')  + '</address>' + 
+         '<br>' + phone + '<br>' + url
+         );
+    console.log( "JSON Data: " + JSON.stringify(venue));
   })
   .fail(function( jqxhr, textStatus, error ) {
     var err = textStatus + ", " + error;
