@@ -1,6 +1,16 @@
+/**
+* @description this implements a map app that has a list view on the left
+* side, so that the user can navigate the chosen venues either with 
+* the list view or by using the map itself. The list view is an accordian
+* and when expanded displays comments about the venue, based on my
+* personal experience.
+*
+* This is part of Udacity Frontend Web Dev Nanodegree
+*/
+
+
 var map;
 var infowindow = "";
-// Create a new blank array for all the listing markers.
 var markers = [];
 
 var locstart = {
@@ -8,24 +18,26 @@ var locstart = {
   lng: '-122.340000'
 };
 
-  // client_id: 'EEVVE4BBS22Q3EHRZL33XVFZZTR51RZTZDIZXDDRVYPRPR4Y',
-  // client_secret: '25D03XWWJAVIJNYLJGJX3EH13HUUX3GJPM3WAVB1G30DOOVK',
-
+// Foursquare offers Userless and User based authentication. Userless
+// just uses the client_id and client_secret, where the User based one
+// uses oauth tokens.
+// From the Foursquare console, it provides an oauth token. With the
+// token, more information is returned, for example, phone number and URL
+// The code in the populate infowindow will handle both uses.
+// oauth_token: 'YI32YYGZJB4THOPW4M5PUQ2QAKB0NOM2E4QYBDGYUDFYPN32',
 var fsBaseUrl = 'https://api.foursquare.com/v2/venues/search';
 var foursquare = {
-  oauth_token: 'YI32YYGZJB4THOPW4M5PUQ2QAKB0NOM2E4QYBDGYUDFYPN32',
+  client_id: 'EEVVE4BBS22Q3EHRZL33XVFZZTR51RZTZDIZXDDRVYPRPR4Y',
+  client_secret: '25D03XWWJAVIJNYLJGJX3EH13HUUX3GJPM3WAVB1G30DOOVK',
   limit: '1',
   v: '20180323',
-  ll: '',
+  ll: locstart.lat + ',' + locstart.lng,
   query: ''
 };
 
-// foursquare.url += 'client_id=' + foursquare.clientId + '&client_secret=' + foursquare.clientSecret;
-// foursquare.url += '&limit=1&v=20180323';
+
 /**
-* @description Represents a book
-* @param {string} title - The title of the book
-* @param {string} author - The author of the book
+* @description initializes the map, and is the callback function to the maps request
 */
 function initMap() {
 
@@ -40,8 +52,8 @@ function initMap() {
   infowindow = new google.maps.InfoWindow();
 
   // create a marker for each location, and use 
-  // red pin as the marker. Red pin image downloaded 
-  // from http://icon-park.com/icon/location-map-pin-red-sphere-free-vector-datasvg/
+  // red pin as the marker. Red pin image downloaded from
+  // http://icon-park.com/icon/location-map-pin-red-sphere-free-vector-datasvg/
   var defaultImage = 'images/red_pin.png';
   var highlightImage = 'images/red_pin_bright.png'
   for (var i = 0; i < locations.length; i++) {
@@ -56,6 +68,7 @@ function initMap() {
 
     markers.push(marker);
 
+    // Add listeners to handle user interaction with the marker
     marker.addListener('click', function() {
       populateInfoWindow(this, infowindow);
     });
@@ -68,14 +81,15 @@ function initMap() {
 
   }
 
-
-
   showLocations();
 }
 
-// This function populates the infowindow when the marker is clicked. We'll only allow
-// one infowindow which will open at the marker that is clicked, and populate based
-// on that markers position.
+
+/**
+* @description populates the infowindow when a marker is clicked.
+* @param {object} marker - the marker that was clicked on
+* @param {object} infowindow - the infowindow that holds the information for the marker
+*/
 function populateInfoWindow(marker, infowindow) {
 
   // If not current marker, then bail
@@ -83,25 +97,16 @@ function populateInfoWindow(marker, infowindow) {
     return
   }
 
-console.log(marker.position.lat);
-
   // Clear the infowindow content
   infowindow.setContent('');
   infowindow.marker = marker;
-  // Make sure the marker property is cleared if the infowindow is closed.
+  // null the marker when window is closed
   infowindow.addListener('closeclick', function() {
     infowindow.marker = null;
   });
 
-  // var searchurl = foursquare.url + '?ll=' + marker.lat + ',' marker.lng + '&intent=match' + '&query=' + marker.title;
-  
-  // foursquare.ll = marker.position.lat() + ',' + marker.position.lng();
-  foursquare.ll = locstart.lat + ',' + locstart.lng;
-  // foursquare.ll = marker.position;
+  // use the marker title as the search query
   foursquare.query = marker.title;
-
-  console.log(foursquare);
-  console.log(fsBaseUrl);
 
   $.getJSON( fsBaseUrl, foursquare )
   .done(function( json ) {
@@ -114,66 +119,33 @@ console.log(marker.position.lat);
       cats.push(venue.categories[i].shortName);
     }
 
-console.log('CONTACT: ' + venue.contact.phone);
-console.log(venue.stats.tipCount);
-console.log(venue.url);
+    // phone only shows up in response for User based requests
     var phone = '';
     if (venue.contact.phone) {
       phone = '<a href="tel:+1' + venue.contact.phone + '">' + venue.contact.formattedPhone + '</a>';
     }
 
+    // url only shows up in response for User based requests
     var url = '';
     if (venue.url) {
       url = '<a href=' + venue.url + '">' + venue.url + '</a>';
     }
+
     infowindow.setContent('<h4>' + venue.name + '</h4>' +
         '<h6>(' + cats.join(',') + ')</h6>' +
          '<address>' + venue.location.formattedAddress.join('<br>')  + '</address>' + 
          '<br>' + phone + '<br>' + url
          );
-    console.log( "JSON Data: " + JSON.stringify(venue));
   })
   .fail(function( jqxhr, textStatus, error ) {
-    var err = textStatus + ", " + error;
-    console.log( "Request Failed: " + err );
+    alert('Something went wrong with the foursquare API, please try again: ' + error);
   });
 
-  // var streetViewService = new google.maps.StreetViewService();
-  // var radius = 50;
-  // // In case the status is OK, which means the pano was found, compute the
-  // // position of the streetview image, then calculate the heading, then get a
-  // // panorama from that and set the options
-  // function getStreetView(data, status) {
-  //   if (status == google.maps.StreetViewStatus.OK) {
-  //     var nearStreetViewLocation = data.location.latLng;
-  //     var heading = google.maps.geometry.spherical.computeHeading(
-  //       nearStreetViewLocation, marker.position);
-  //       infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
-  //       var panoramaOptions = {
-  //         position: nearStreetViewLocation,
-  //         pov: {
-  //           heading: heading,
-  //           pitch: 30
-  //         }
-  //       };
-  //     var panorama = new google.maps.StreetViewPanorama(
-  //       document.getElementById('pano'), panoramaOptions);
-  //   } else {
-  //     infowindow.setContent('<div>' + marker.title + '</div>' +
-  //       '<div>No Street View Found</div>');
-  //   }
-  // }
-  // // Use streetview service to get the closest streetview image within
-  // // 50 meters of the markers position
-  // streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
-  // // Open the infowindow on the correct marker.
   infowindow.open(map, marker);
 
 }
 /**
-* @description Represents a book
-* @param {string} title - The title of the book
-* @param {string} author - The author of the book
+* @description renders the markers onto the map
 */
 function showLocations() {
   var bounds = new google.maps.LatLngBounds();
@@ -186,9 +158,8 @@ function showLocations() {
 }
 
 /**
-* @description Represents a book
-* @param {string} title - The title of the book
-* @param {string} author - The author of the book
+* @description sets the state of all the markers
+* @param {boolean} flag - The state of the markers to be set (true|false)
 */
 function markersSet(flag) {
 
@@ -198,10 +169,10 @@ function markersSet(flag) {
 }
 
 /**
-* @description Represents a book
+* @description Location class
 * @constructor
-* @param {string} title - The title of the book
-* @param {string} author - The author of the book
+* @param {object} data - the data object to initialize the class
+* @param {number} author - the index of this location in the array of locations
 */
 var Location = function(data, index) {
   var self = this;
@@ -210,24 +181,25 @@ var Location = function(data, index) {
   this.location = ko.observable(data.location);
   this.type = ko.observable(data.type);
   this.description = ko.observable(data.description);
+  // these are helpers for the HTML construction
+  this.index = index;
   this.heading = 'heading' + index;
   this.collapse = 'collapse' + index;
-  // this.marker = {};
 
+  // This is to catch the accordian expansion in order
+  // to trigger the popup infowindow.
   // There's probably a better way to do this...
-  $(document).ready(function(){
-    $('#' + self.collapse).on('shown.bs.collapse', function(){
-        populateInfoWindow(markers[index], infowindow);
-    });
-  });
+  // $(document).ready(function(){
+  //   $('#' + self.collapse).on('shown.bs.collapse', function(){
+  //       populateInfoWindow(markers[index], infowindow);
+  //   });
+  // });
 }
 
 
 /**
-* @description Represents a book
+* @description view model of the listings
 * @constructor
-* @param {string} title - The title of the book
-* @param {string} author - The author of the book
 */
 function listViewModel() {
   var self = this; 
@@ -241,10 +213,13 @@ function listViewModel() {
   };
 
 
+  self.popup = function(data, event) {
+    console.log(data.index);
+    populateInfoWindow(markers[data.index], infowindow);
+  };
+
   /**
-  * @description Represents a book
-  * @param {string} title - The title of the book
-  * @param {string} author - The author of the book
+  * @description computed observable to get the filtered markers
   *
   * Adapted from howto on KO utils here:
   * http://www.knockmeout.net/2011/04/utility-functions-in-knockoutjs.html
@@ -272,8 +247,6 @@ function listViewModel() {
     return filteredSet;
 
   }, this);
-
-  // this.currentLocation = ko.observable( this.locationList()[0] );
 
 };
 
