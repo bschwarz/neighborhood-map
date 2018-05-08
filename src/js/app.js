@@ -58,7 +58,7 @@ function initMap() {
   // red pin as the marker. Red pin image downloaded from
   // http://icon-park.com/icon/location-map-pin-red-sphere-free-vector-datasvg/
   var defaultImage = 'images/red_pin.png';
-  var highlightImage = 'images/red_pin_bright.png'
+  var highlightImage = 'images/red_pin_bright.png';
   for (var i = 0; i < locations.length; i++) {
 
     var marker = new google.maps.Marker({
@@ -97,7 +97,7 @@ function populateInfoWindow(marker, infowindow) {
 
   // If current marker, then bail
   if (infowindow.marker == marker) {
-    return
+    return;
   }
 
   // Clear the infowindow content
@@ -129,7 +129,7 @@ function populateInfoWindow(marker, infowindow) {
     }
 
     infowindow.setContent('<h4>' + venue.name + '</h4>' +
-        '<h6>(' + venue.categories.map(x => x.shortName).join(',') + ')</h6>' +
+        '<h6>(' + venue.categories.map(function(x) {return x.shortName;}).join(',') + ')</h6>' +
          '<address>' + venue.location.formattedAddress.join('<br>')  + '</address>' + 
          '<br>' + phone + '<br>' + url
          );
@@ -183,7 +183,7 @@ var Location = function(data, index) {
   this.heading = 'heading' + index;
   this.collapse = 'collapse' + index;
 
-}
+};
 
 
 /**
@@ -199,7 +199,7 @@ function listViewModel() {
   for (var i = 0; i < locations.length; i++) {
     var loc = new Location(locations[i], i);
     self.locationList.push( loc );
-  };
+  }
 
 
   /**
@@ -241,9 +241,9 @@ function listViewModel() {
 
   }, this);
 
-};
+}
 
 // different way to call bindings, from here:
 // https://robinsr.github.io/blog/post/knockoutjs-best-practices
-var listView = { viewModel : new listViewModel() }
+var listView = { viewModel : new listViewModel() };
 ko.applyBindings(listView.viewModel);
