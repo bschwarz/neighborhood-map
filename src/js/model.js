@@ -9,7 +9,7 @@
 		title: 'Seattle Gum Wall',
 		location: {lat: 47.608425, lng: -122.340365},
 		type: 'attraction',
-		description: 'Wall with gum stuck all over it. An unofficial Seattle landmark'
+		description: 'Wall with chewing gum stuck all over it. An unofficial Seattle landmark'
 	},
 	{
 		title: 'Pike Place Market',
@@ -21,7 +21,7 @@
 		title: 'Pike Brewing Company',
 		location: {lat: 47.608232, lng: -122.339743},
 		type: 'bar',
-		description: 'One of many breweries in Seattle'
+		description: 'One of many local breweries in Seattle'
 	},
 	{
 		title: 'The Showbox',
@@ -39,7 +39,7 @@
 		title: 'Alibi Room',
 		location: {lat: 47.608255, lng: -122.340411},
 		type: 'restaurant',
-		description: 'Restaurant that has movie scripts that can be read. Started by actor Tom Skerritt'
+		description: 'Restaurant that has movie scripts that customers can read. Started by actor Tom Skerritt'
 	},
 	{
 		title: 'The Pink Door',
