@@ -17,8 +17,8 @@ var infowindow = "";
 var markers = [];
 
 var locstart = {
-  lat: '47.609000',
-  lng: '-122.340000'
+  lat: 47.609000,
+  lng: -122.340000
 };
 
 // Foursquare offers Userless and User based authentication. Userless
