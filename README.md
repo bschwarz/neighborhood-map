@@ -24,7 +24,7 @@ You can load the website in two ways:
 
 -------------
 ## Using the website
-The UI is made up of a listview on the left side (25%) of the page which lists the venues, and a map on the right side of the page that shows the locations of several venues in the Pike Place Market neighborhood of Seattle, WA. The listview uses bootstrap's accordian such that when you click on an item in the list, brief notes from the venue from me are shown below the venue title. The click event also highlights the venue on the map and also pops up an infowindow about the venue. The infowindow has information about the venue from the Foursquare API, which is fetched async using JQuery getJSON method. The markers on the map use custom images adapted from [here](http://icon-park.com/icon/location-map-pin-red-sphere-free-vector-datasvg/). When there is a mouse over event, the image changes to slightly larger and brighter.
+The UI is made up of a listview on the left side (25%) of the page which lists the venues, and a map on the right side of the page that shows the locations of several venues in the *Pike Place Market* neighborhood of Seattle, WA. The listview uses bootstrap's accordian such that when you click on an item in the list, brief notes from the venue from me are shown below the venue title. The click event also highlights the venue on the map and also pops up an infowindow about the venue. The infowindow has information about the venue from the Foursquare API, which is fetched async using JQuery ```getJSON``` method. The markers on the map use custom images adapted from [here](http://icon-park.com/icon/location-map-pin-red-sphere-free-vector-datasvg/). When there is a mouse over event, the image changes to slightly larger and brighter.
 
 ## Optimizations
 -   Minified CSS with ```htmlmin``` to reduce file size
@@ -37,7 +37,7 @@ The UI is made up of a listview on the left side (25%) of the page which lists t
 
 ### Page Speed Insights Results:
 
-[Page Speed Insight analysis](https://developers.google.com/speed/pagespeed/insights/?url=https%3A%2F%2Fbschwarz.github.io%2Ffrontend-nanodegree-mobile-portfolio%2Fdist%2F)
+[Page Speed Insight analysis](https://developers.google.com/speed/pagespeed/insights/?url=https%3A%2F%2Fbschwarz.github.io%2Fneighborhood-map%2Fdist%2F&tab=desktop)
 
     
 
