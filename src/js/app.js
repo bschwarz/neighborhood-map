@@ -221,10 +221,6 @@ function listViewModel() {
   * @param {object} data - The title of the book
   */
   self.popup = function(data) {
-    // markers[data.index].setAnimation(google.maps.Animation.BOUNCE);
-    // setTimeout((function() {
-    //   markers[data.index].setAnimation(null);
-    // }).bind(self), 2000);
     animateMarker(markers[data.index]);
     populateInfoWindow(markers[data.index], infowindow);
   };
