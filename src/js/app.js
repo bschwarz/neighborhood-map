@@ -59,7 +59,7 @@ function initMap() {
   // http://icon-park.com/icon/location-map-pin-red-sphere-free-vector-datasvg/
   var defaultImage = 'images/red_pin.png';
   var highlightImage = 'images/red_pin_bright.png';
-  for (var i = 0; i < locations.length; i++) {
+  for (var i = 0, len = locations.length; i < len; i++) {
 
     var marker = new google.maps.Marker({
       position: locations[i].location,
@@ -90,7 +90,7 @@ function initMap() {
 
 
 /**
-* @description animates a marker by bouncing it for 2 seconds
+* @description animates a marker by bouncing it for 2.1 seconds
 * @param {object} marker - the marker on the map
 */
 function animateMarker(marker) {
@@ -160,10 +160,10 @@ function populateInfoWindow(marker, infowindow) {
 function showLocations() {
   var bounds = new google.maps.LatLngBounds();
   // Extend the boundaries of the map for each marker and display the marker
-  for (var i = 0; i < markers.length; i++) {
-    markers[i].setMap(map);
-    bounds.extend(markers[i].position);
-  }
+  markers.forEach(function(marker) {
+    marker.setMap(map);
+    bounds.extend(marker.position);
+  });
   map.fitBounds(bounds);
 }
 
@@ -173,9 +173,9 @@ function showLocations() {
 */
 function markersSet(flag) {
 
-  for (var i = 0; i < markers.length; i++) {
-    markers[i].setVisible(flag);
-  }
+  markers.forEach(function(marker) {
+    marker.setVisible(flag);
+  });
 }
 
 /**
@@ -209,11 +209,10 @@ function listViewModel() {
   self.locationList = ko.observableArray([]);
   self.searchNeighborhood = ko.observable("");
 
-  for (var i = 0; i < locations.length; i++) {
+  for (var i = 0, len = locations.length; i < len; i++) {
     var loc = new Location(locations[i], i);
     self.locationList.push( loc );
   }
-
 
   /**
   * @description this is a wrapper for the click bind for
