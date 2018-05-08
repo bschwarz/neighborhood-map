@@ -187,14 +187,14 @@ function markersSet(flag) {
 var Location = function(data, index) {
   var self = this;
 
-  this.title = ko.observable(data.title);
-  this.location = ko.observable(data.location);
-  this.type = ko.observable(data.type);
-  this.description = ko.observable(data.description);
+  self.title = ko.observable(data.title);
+  self.description = data.description;
+  self.location = data.location;
+  self.type = data.type;
   // these are helpers for the HTML construction
-  this.index = index;
-  this.heading = 'heading' + index;
-  this.collapse = 'collapse' + index;
+  self.index = index;
+  self.heading = 'heading' + index;
+  self.collapse = 'collapse' + index;
 
 };
 
