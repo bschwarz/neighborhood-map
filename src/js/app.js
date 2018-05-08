@@ -86,7 +86,7 @@ function initMap() {
   }
 
   showLocations();
-};
+}
 
 /**
 * @description handles errors when there is an error loading
@@ -98,7 +98,7 @@ function mapError() {
   alert('There was a problem loading the map');
 
   return;
-};
+}
 
 
 /**
@@ -110,7 +110,7 @@ function animateMarker(marker) {
     setTimeout((function() {
       marker.setAnimation(null);
     }).bind(self), 2100);
-};
+}
 
 /**
 * @description populates the infowindow when a marker is clicked.
