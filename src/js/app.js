@@ -97,7 +97,7 @@ function animateMarker(marker) {
     marker.setAnimation(google.maps.Animation.BOUNCE);
     setTimeout((function() {
       marker.setAnimation(null);
-    }).bind(self), 2000);
+    }).bind(self), 2100);
 };
 
 /**
