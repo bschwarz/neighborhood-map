@@ -73,6 +73,7 @@ function initMap() {
 
     // Add listeners to handle user interaction with the marker
     marker.addListener('click', function() {
+      animateMarker(this);
       populateInfoWindow(this, infowindow);
     });
     marker.addListener('mouseover', function() {
@@ -87,6 +88,17 @@ function initMap() {
   showLocations();
 }
 
+
+/**
+* @description animates a marker by bouncing it for 2 seconds
+* @param {object} marker - the marker on the map
+*/
+function animateMarker(marker) {
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout((function() {
+      marker.setAnimation(null);
+    }).bind(self), 2000);
+};
 
 /**
 * @description populates the infowindow when a marker is clicked.
@@ -131,7 +143,8 @@ function populateInfoWindow(marker, infowindow) {
     infowindow.setContent('<h4>' + venue.name + '</h4>' +
         '<h6>(' + venue.categories.map(function(x) {return x.shortName;}).join(',') + ')</h6>' +
          '<address>' + venue.location.formattedAddress.join('<br>')  + '</address>' + 
-         '<br>' + phone + '<br>' + url
+         '<br>' + phone + '<br>' + url + 
+         '<footer>Powered by <a href="https://developer.foursquare.com">Foursquare</a></footer>'
          );
   })
   .fail(function( jqxhr, textStatus, error ) {
@@ -208,6 +221,11 @@ function listViewModel() {
   * @param {object} data - The title of the book
   */
   self.popup = function(data) {
+    // markers[data.index].setAnimation(google.maps.Animation.BOUNCE);
+    // setTimeout((function() {
+    //   markers[data.index].setAnimation(null);
+    // }).bind(self), 2000);
+    animateMarker(markers[data.index]);
     populateInfoWindow(markers[data.index], infowindow);
   };
 
