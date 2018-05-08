@@ -3,9 +3,12 @@
 * side, so that the user can navigate the chosen venues either with 
 * the list view or by using the map itself. The list view is an accordian
 * and when expanded displays comments about the venue, based on my
-* personal experience.
+* personal experience. A click in the list view or on a marker on the
+* map will initiate an async API call to Foursquare to get more info
+* about the venue.
 *
 * This is part of Udacity Frontend Web Dev Nanodegree
+* @author - Brett Schwarz
 */
 
 
@@ -92,7 +95,7 @@ function initMap() {
 */
 function populateInfoWindow(marker, infowindow) {
 
-  // If not current marker, then bail
+  // If current marker, then bail
   if (infowindow.marker == marker) {
     return
   }
@@ -113,26 +116,20 @@ function populateInfoWindow(marker, infowindow) {
 
     var venue = json.response.venues[0];
 
-    // There can be multiple categories, so get shortName of each
-    var cats = [];
-    for (var i = 0; i < venue.categories.length; i++) {
-      cats.push(venue.categories[i].shortName);
-    }
-
-    // phone only shows up in response for User based requests
+    // phone only shows up in response for User auth based requests
     var phone = '';
     if (venue.contact.phone) {
       phone = '<a href="tel:+1' + venue.contact.phone + '">' + venue.contact.formattedPhone + '</a>';
     }
 
-    // url only shows up in response for User based requests
+    // url only shows up in response for User auth based requests
     var url = '';
     if (venue.url) {
       url = '<a href=' + venue.url + '">' + venue.url + '</a>';
     }
 
     infowindow.setContent('<h4>' + venue.name + '</h4>' +
-        '<h6>(' + cats.join(',') + ')</h6>' +
+        '<h6>(' + venue.categories.map(x => x.shortName).join(',') + ')</h6>' +
          '<address>' + venue.location.formattedAddress.join('<br>')  + '</address>' + 
          '<br>' + phone + '<br>' + url
          );
@@ -186,14 +183,6 @@ var Location = function(data, index) {
   this.heading = 'heading' + index;
   this.collapse = 'collapse' + index;
 
-  // This is to catch the accordian expansion in order
-  // to trigger the popup infowindow.
-  // There's probably a better way to do this...
-  // $(document).ready(function(){
-  //   $('#' + self.collapse).on('shown.bs.collapse', function(){
-  //       populateInfoWindow(markers[index], infowindow);
-  //   });
-  // });
 }
 
 
@@ -213,8 +202,12 @@ function listViewModel() {
   };
 
 
-  self.popup = function(data, event) {
-    console.log(data.index);
+  /**
+  * @description this is a wrapper for the click bind for
+  * accordian to pass into the populateInfoWindow
+  * @param {object} data - The title of the book
+  */
+  self.popup = function(data) {
     populateInfoWindow(markers[data.index], infowindow);
   };
 
