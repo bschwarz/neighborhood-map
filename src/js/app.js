@@ -86,7 +86,19 @@ function initMap() {
   }
 
   showLocations();
-}
+};
+
+/**
+* @description handles errors when there is an error loading
+* the map
+* @param {string} title - The title of the book
+* @param {string} author - The author of the book
+*/
+function mapError() {
+  alert('There was a problem loading the map');
+
+  return;
+};
 
 
 /**
