@@ -9,16 +9,13 @@
     <meta name="author" content="Brett Schwarz">
 
     <title>Neighborhood Map</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet" inline>
+    <link href="css/styles.css" rel="stylesheet" inline>
 
     <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.min.js" inline></script>
     <script src="js/knockout-min.js"></script>
 
-    <!-- Defer the model.j and app.js so HTML is loaded first so can bind to it -->
-<!--     <script src="js/model.js" defer="defer"></script>
-    <script src="js/app.js" defer="defer"></script> -->
 
     <!-- Creating a template so can re-use for each location -->
     <script type="text/html" id="locationList-template">
@@ -70,8 +67,8 @@
     </div>
     </main>
 
-    <script src="js/model.js"></script>
-    <script src="js/app.js"></script>
+    <script src="js/model.js" inline></script>
+    <script src="js/app.js" inline></script>
     <script async defer
         src=
         "https://maps.googleapis.com/maps/api/js?libraries=geometry&key=AIzaSyB6ooU3VulJ7rPMTm7pQq2NXjX6SRnfSzU&v=3&callback=initMap">
