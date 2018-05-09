@@ -101,6 +101,8 @@ The resulting files for distribution will be in the ```dist/``` directory
 + [Udacity Frontend Web Dev API Lesson - 5.17](https://classroom.udacity.com/nanodegrees/nd001/syllabus/core-curriculum) - adapted code from the Udacity lesson 17 (Getting Started with APIs) in module 5 for the map.
 + [knockout tips](https://robinsr.github.io/blog/post/knockoutjs-best-practices) - used tips from here in my code.
 + [Icon Park](http://icon-park.com/icon/location-map-pin-red-sphere-free-vector-datasvg/) - used this image from Icon Park as the marker on the map. Adapted the image so that it gets highlighted when hover event occurs.
++ [bootstrap sidebar tutorial](https://bootstrapious.com/p/bootstrap-sidebar)
++ [bootstrap sidebar howto](https://www.w3schools.com/howto/howto_js_sidenav.asp)
 + [Google Page Speed Insights](https://developers.google.com/speed/pagespeed/insights/) - tool to measure web page performance
 + [Chrome Dev Tools tips-and-tricks](https://developer.chrome.com/devtools/docs/tips-and-tricks)
 + [Optimizing Performance](https://developers.google.com/web/fundamentals/performance/)
