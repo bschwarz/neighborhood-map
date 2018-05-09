@@ -1,6 +1,6 @@
  var locations = [
 	{
-		title: 'The Nest at the Thompson Hotel', 
+		title: 'The Nest', 
 		location: {lat: 47.610722, lng: -122.341404}, 
 		type: 'bar',
 		description: 'Great View of the waterfront while enjoying drinks'
@@ -54,7 +54,7 @@
 		description: 'First Starbucks Coffee shop'
 	},
 	{
-		title: 'Athenian Seafood Restaurant and Bar',
+		title: 'Athenian',
 		location: {lat: 47.608717, lng: -122.341034},
 		type: 'restaurant',
 		description: 'Restaurant made famous by the film Sleepless in Seattle'
