@@ -22,7 +22,7 @@
         <div class="card">
         <div class="card-header" data-bind="attr: { id: heading}">
           <h5 class="mb-0">
-          <button class="btn btn-link" data-toggle="collapse" data-bind="text: title, attr: { 'data-target': '#'+collapse, 'aria-controls': collapse}, click: $root.popup" aria-expanded="true">
+          <button class="btn btn-link listbtn" data-toggle="collapse" data-bind="text: title, attr: { 'data-target': '#'+collapse, 'aria-controls': collapse}, click: $root.popup" aria-expanded="true">
           </button>
           </h5>
         </div>
@@ -39,33 +39,44 @@
               <!-- BODY -->
   <body>
 
-    <main class="container-fluid h-100">
+    <div class="container-fluid h-100" id="wrapper">
 
       <div class="row h-100">
         <!-- This is the side widget with the location listings -->
-      <aside class="listing-box col-6 col-sm-3">
-        <h2>Neighborhood Map</h2>
+        <aside id="listview" class="listing-box collapse float-left col-3 h-100">
+          <h2>Neighborhood Map</h2>
 
-        <hr>
-        <div>
-          <input id="search-within-neighborhood" type="text" placeholder="text to filter results" data-bind="textInput: searchNeighborhood, valueUpdate: 'keydown'">
-          <input id="search-go" type="button" value="Filter">
-        </div>
-
-        <!-- Using bootstrap accordian-->
-        <!-- This will be expanded out with the foreach loop over the locations, one card per location -->
-        <div data-bind="foreach: locationListFiltered">
-          <div id="accordion" data-bind="template: { name: 'locationList-template'}">
+          <hr>
+          <div>
+            <input id="search-within-neighborhood" type="text" placeholder="text to filter results" data-bind="textInput: searchNeighborhood, valueUpdate: 'keydown'">
+            <input id="search-go" type="button" value="Filter">
           </div>
+
+          <!-- Using bootstrap accordian-->
+          <!-- This will be expanded out with the foreach loop over the locations, one card per location -->
+          <div data-bind="foreach: locationListFiltered">
+            <div id="accordion" data-bind="template: { name: 'locationList-template'}">
+            </div>
+          </div>
+
+          <hr>
+        </aside>
+
+        <div class="col">
+          <a href class="float-left navbar-light m-1" data-target="#listview" data-toggle="collapse">
+                      <span class="navbar-toggler-icon"></span>
+          </a>
+        
+          <section class="content">
+             <div id="map" ></div>
+          </section>
         </div>
+    
 
-        <hr>
-      </aside>
 
-      <section id="map" class="col-9 col-sm-auto">
-      </section>
+      </div>
     </div>
-    </main>
+
 
     <script src="js/model.js" inline></script>
     <script src="js/app.js" inline></script>

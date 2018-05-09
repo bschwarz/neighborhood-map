@@ -1,53 +1,55 @@
-      html,body {
-        font-family: Verdana, sans-serif;
-        font-size: 11pt;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
+html,body {
+  font-family: Verdana, sans-serif;
+  font-size: 11pt;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 
-/*      .container-fluid {
-        height: 100%;
-        position: relative;
-      }*/
+input {
+  font-size: 11pt;
+}
 
-      input {
-        font-size: 11pt;
-      }
+h2 {
+  color: #336699;
+  font-size: 18pt;
+  text-align: center;
+}
+/* adapted from https://css-tricks.com/examples/hrs/ */
+hr { 
+  border: 0; 
+  height: 2px; 
+  background: #336699; 
+  background-image: linear-gradient(to right, #99ccff, #336699, #99ccff); 
+}
 
-      h2 {
-        color: #336699;
-        font-size: 18pt;
-        text-align: center;
-      }
-      /* adapted from https://css-tricks.com/examples/hrs/ */
-      hr { 
-        border: 0; 
-        height: 2px; 
-        background: #336699; 
-        background-image: linear-gradient(to right, #99ccff, #336699, #99ccff); 
-      }
 
-      #map {
-        bottom:0px;
-        height: 100%;
-        width: 100%;
-        left: 25%;
-        position: absolute;
-        right: 0px;
-      }
+#map {
+  bottom:0px;
+  height: 100%;
+  width: 100%;
+  left: 50px;
+  position: absolute;
+  right: 0px;
+  z-index: 1;
+}
 
-      .listing-box {
-        background: #fff;
-        border: 1px solid #336699;
-        border-radius: 5px;
-        height: 100%;
-        line-height: 35px;
-        padding: 1px 1px 3px 1px;
-        text-align: left;
-        /*width: 340px;*/
-      }
+.listing-box {
+  background: #fff;
+  height: 100%;
+  line-height: 35px;
+  padding: 1px 1px 1px 1px;
+  text-align: left;
+  transform: translate3d(0, 0, 0);
+  transition: transform 0.2s;
+  min-width: 200px;
+}
 
-      #search-within-neighborhood {
-        width: 75%;
-      }
+#search-within-neighborhood {
+  width: 75%;
+}
+
+
+@media screen and (max-width: 400px) {
+    .listbtn {font-size: 10pt;}
+}
