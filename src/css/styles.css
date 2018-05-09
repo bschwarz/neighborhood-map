@@ -24,14 +24,15 @@ hr {
 }
 
 
-#map {
-  bottom:0px;
+.map {
+  bottom:0;
   height: 100%;
   width: 100%;
   left: 50px;
   position: absolute;
-  right: 0px;
+  right: 0;
   z-index: 1;
+  overflow-x: scroll;
 }
 
 .listing-box {
@@ -40,12 +41,12 @@ hr {
   line-height: 35px;
   padding: 1px 1px 1px 1px;
   text-align: left;
-  transform: translate3d(0, 0, 0);
   transition: transform 0.2s;
   min-width: 200px;
+  overflow-y: scroll;
 }
 
-#search-within-neighborhood {
+.searchNeighborhood {
   width: 75%;
 }
 
